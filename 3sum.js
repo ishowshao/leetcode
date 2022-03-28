@@ -1,3 +1,4 @@
+// a + b = -c 转换为2sum能过题目，去重比较费时间
 /**
  * @param {number[]} nums
  * @return {number[][]}
