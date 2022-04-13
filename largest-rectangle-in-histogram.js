@@ -3,26 +3,17 @@
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-    let max = 0;
-    for (let i = 0; i < heights.length; i++) {
+    const minHeights = Array(heights.length).fill(0);
+    minHeights[heights.length - 1] = heights[heights.length - 1];
+    for (let i = heights.length - 2; i > -1; i--) {
         let height = heights[i];
-        let left = -1;
-        let right = -1;
-        for (left = i; left > 0; left--) {
-            if (height > heights[left - 1]) {
-                break;
-            }
+        if (height < minHeights[i + 1]) {
+            minHeights[i] = height;
+        } else {
+            minHeights[i] = minHeights[i + 1];
         }
-        for (right = i; right < heights.length - 1; right++) {
-            if (height > heights[right + 1]) {
-                break;
-            }
-        }
-        // console.log(height, left, right);
-        // console.log((right - left + 1) * height);
-        max = Math.max(max, (right - left + 1) * height);
     }
-    return max;
+    console.log(minHeights);
 };
 
 console.log(largestRectangleArea([2, 1, 5, 6, 2, 3]));
