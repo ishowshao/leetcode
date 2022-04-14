@@ -14,22 +14,14 @@ var inorderTraversal = function (root) {
     let result = [];
 
     const helper = (root) => {
-        if (!root.left && !root.right) {
-            result.push(root.val);
+        if (!root) {
             return;
         }
-        if (root.left) {
-            helper(root.left);
-        }
+        helper(root.left);
         result.push(root.val);
-        if (root.right) {
-            helper(root.right);
-        }
+        helper(root.right);
     };
 
-    if (!root) {
-        return [];
-    }
     helper(root);
 
     return result;
