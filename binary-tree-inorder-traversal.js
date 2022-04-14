@@ -13,16 +13,17 @@
 var inorderTraversal = function (root) {
     let result = [];
 
-    const helper = (root) => {
-        if (!root) {
-            return;
-        }
-        helper(root.left);
-        result.push(root.val);
-        helper(root.right);
-    };
+    let stack = [];
 
-    helper(root);
+    while (root || stack.length) {
+        while (root) {
+            stack.push(root);
+            root = root.left;
+        }
+        let node = stack.pop();
+        result.push(node.val);
+        root = node.right;
+    }
 
     return result;
 };
