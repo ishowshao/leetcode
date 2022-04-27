@@ -12,8 +12,16 @@
  */
 var sortList = function (head) {
     const values = [];
+    const h = head;
     while (head) {
         values.push(head.val);
         head = head.next;
     }
+    values.sort((a, b) => a - b);
+    head = h;
+    values.forEach(val => {
+        head.val = val;
+        head = head.next;
+    });
+    return h;
 };
