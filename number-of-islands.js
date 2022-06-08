@@ -1,3 +1,4 @@
+// 我觉得我这个实现方法应该性能很好，不知道为啥在leetcode上提交以后在后6%
 /**
  * @param {character[][]} grid
  * @return {number}
