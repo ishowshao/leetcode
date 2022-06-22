@@ -6,7 +6,6 @@ var lengthOfLIS = function (nums) {
     const dp = Array(nums.length).fill(0);
     dp[0] = 1;
     for (let i = 1; i < nums.length; i++) {
-        // dp[i] = max(dp[j]) + 1;
         let maxj = 0;
         for (let j = 0; j < i; j++) {
             if (nums[j] < nums[i]) {
