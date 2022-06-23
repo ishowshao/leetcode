@@ -3,6 +3,7 @@
  * @return {number}
  */
 var minMeetingRooms = function (intervals) {
+    // 开始时间有序这一点很重要,后续的会议室是否可用检查就简单多了
     intervals.sort((a, b) => a[0] - b[0]);
     // console.log(intervals);
     const rooms = [];
@@ -11,14 +12,7 @@ var minMeetingRooms = function (intervals) {
         let which = null;
         for (let r = 0; r < rooms.length; r++) {
             let ranges = rooms[r];
-            let flag = true;
-            for (let i = 0; i < ranges.length; i++) {
-                if (overlap(ranges[i], meeting)) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
+            if (meeting[0] > ranges[ranges.length - 1][1]) {
                 ranges.push(meeting);
                 which = ranges;
                 break;
@@ -30,14 +24,6 @@ var minMeetingRooms = function (intervals) {
     }
     console.log(rooms);
     return rooms.length;
-};
-
-const overlap = (range1, range2) => {
-    const [start1, end1] = range1;
-    const [start2, end2] = range2;
-    // return (start2 > start1 && start2 < end1) || (end2 > start1 && end2 < end1) || (start1 > start2 && start1 < end2) || (end1 > start2 && end1 < end2) || (start1 === start2 && end1 === end2);
-    // console.log(start2 < end1);
-    return (start2 < end1);
 };
 
 console.log(overlap([0, 30], [5, 10]));
