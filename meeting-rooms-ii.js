@@ -26,10 +26,6 @@ var minMeetingRooms = function (intervals) {
     return rooms.length;
 };
 
-console.log(overlap([0, 30], [5, 10]));
-console.log(overlap([0, 30], [15, 20]));
-console.log(overlap([5, 10], [15, 20]));
-
 console.log(
     minMeetingRooms([
         [0, 30],
