@@ -4,7 +4,7 @@
  */
 var minMeetingRooms = function (intervals) {
     intervals.sort((a, b) => a[0] - b[0]);
-    console.log(intervals);
+    // console.log(intervals);
     const rooms = [];
     for (let i = 0; i < intervals.length; i++) {
         let meeting = intervals[i];
@@ -13,7 +13,7 @@ var minMeetingRooms = function (intervals) {
             let ranges = rooms[r];
             let flag = true;
             for (let i = 0; i < ranges.length; i++) {
-                if (overlap(meeting, ranges[i])) {
+                if (overlap(ranges[i], meeting)) {
                     flag = false;
                     break;
                 }
@@ -28,17 +28,21 @@ var minMeetingRooms = function (intervals) {
             rooms.push([meeting]);
         }
     }
-    // console.log(rooms);
+    console.log(rooms);
     return rooms.length;
 };
 
 const overlap = (range1, range2) => {
     const [start1, end1] = range1;
     const [start2, end2] = range2;
-    return (start2 > start1 && start2 < end1) || (end2 > start1 && end2 < end1) || (start1 > start2 && start1 < end2) || (end1 > start2 && end1 < end2) || (start1 === start2 && end1 === end2);
+    // return (start2 > start1 && start2 < end1) || (end2 > start1 && end2 < end1) || (start1 > start2 && start1 < end2) || (end1 > start2 && end1 < end2) || (start1 === start2 && end1 === end2);
+    // console.log(start2 < end1);
+    return (start2 < end1);
 };
 
-// console.log(overlap([2, 5], [3, 6]));
+console.log(overlap([0, 30], [5, 10]));
+console.log(overlap([0, 30], [15, 20]));
+console.log(overlap([5, 10], [15, 20]));
 
 console.log(
     minMeetingRooms([
