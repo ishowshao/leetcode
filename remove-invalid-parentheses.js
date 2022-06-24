@@ -60,20 +60,20 @@ const countRemove = (s) => {
 };
 
 const isValid = (s) => {
-    const stack = [];
+    let l = 0;
+    let r = 0;
     for (let i = 0; i < s.length; i++) {
         if (s[i] === '(') {
-            stack.push(s[i]);
-        }
-        if (s[i] === ')') {
-            if (stack[stack.length - 1] === '(') {
-                stack.pop();
+            l++;
+        } else if (s[i] === ')') {
+            if (l > 0) {
+                l--;
             } else {
-                stack.push(')');
+                r++;
             }
         }
     }
-    return stack.length === 0;
+    return l === 0 && r === 0;
 };
 
 console.log(removeInvalidParentheses('()())()'));
