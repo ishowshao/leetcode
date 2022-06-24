@@ -6,14 +6,14 @@ var removeInvalidParentheses = function (s) {
     const sArr = s.split('');
     let [l, r] = countRemove(s);
     const strs = new Set();
-    const helper = () => {
+    const helper = (sl, sr) => {
         if (l > 0) {
             // do remove
-            for (let i = 0; i < sArr.length; i++) {
+            for (let i = sl; i < sArr.length; i++) {
                 if (sArr[i] === '(') {
                     sArr[i] = '';
                     l--;
-                    helper();
+                    helper(i, sr);
                     // undo remove
                     sArr[i] = '(';
                     l++;
@@ -21,11 +21,11 @@ var removeInvalidParentheses = function (s) {
             }
         }
         if (r > 0) {
-            for (let i = 0; i < sArr.length; i++) {
+            for (let i = sr; i < sArr.length; i++) {
                 if (sArr[i] === ')') {
                     sArr[i] = '';
                     r--;
-                    helper();
+                    helper(sl, i);
                     // undo remove
                     sArr[i] = ')';
                     r++;
@@ -37,7 +37,7 @@ var removeInvalidParentheses = function (s) {
             strs.add(sArr.join(''));
         }
     };
-    helper();
+    helper(0, 0);
     // console.log(strs);
     return Array.from(strs).filter((el) => isValid(el));
 };
@@ -76,12 +76,12 @@ const isValid = (s) => {
     return stack.length === 0;
 };
 
-// console.log(removeInvalidParentheses('()())()'));
-// console.log(removeInvalidParentheses('(a)())()'));
-// console.log(removeInvalidParentheses(')('));
-// console.log(removeInvalidParentheses('))('));
-// console.log(removeInvalidParentheses(')()('));
-// console.log(removeInvalidParentheses('(((k()(('));
-// console.log(removeInvalidParentheses(')(k(()'));
-// console.log(removeInvalidParentheses('()((((((()l('));
+console.log(removeInvalidParentheses('()())()'));
+console.log(removeInvalidParentheses('(a)())()'));
+console.log(removeInvalidParentheses(')('));
+console.log(removeInvalidParentheses('))('));
+console.log(removeInvalidParentheses(')()('));
+console.log(removeInvalidParentheses('(((k()(('));
+console.log(removeInvalidParentheses(')(k(()'));
+console.log(removeInvalidParentheses('()((((((()l('));
 console.log(removeInvalidParentheses('())((((((((((b))('));
