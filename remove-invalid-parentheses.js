@@ -3,7 +3,60 @@
  * @return {string[]}
  */
 var removeInvalidParentheses = function (s) {
+    const sArr = s.split('');
+    let [l, r] = countRemove(s);
+    const strs = new Set();
+    const helper = () => {
+        if (l > 0) {
+            // do remove
+            for (let i = 0; i < sArr.length; i++) {
+                if (sArr[i] === '(') {
+                    sArr[i] = '';
+                    l--;
+                    helper();
+                    // undo remove
+                    sArr[i] = '(';
+                    l++;
+                }
+            }
+        }
+        if (r > 0) {
+            for (let i = 0; i < sArr.length; i++) {
+                if (sArr[i] === ')') {
+                    sArr[i] = '';
+                    r--;
+                    helper();
+                    // undo remove
+                    sArr[i] = ')';
+                    r++;
+                }
+            }
+        }
+        if (l === 0 && r === 0) {
+            // console.log(sArr);
+            strs.add(sArr.join(''));
+        }
+    };
+    helper();
+    // console.log(strs);
+    return Array.from(strs).filter((el) => isValid(el));
+};
 
+const countRemove = (s) => {
+    let l = 0;
+    let r = 0;
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === '(') {
+            l++;
+        } else if (s[i] === ')') {
+            if (l > 0) {
+                l--;
+            } else {
+                r++;
+            }
+        }
+    }
+    return [l, r];
 };
 
 const isValid = (s) => {
@@ -28,4 +81,7 @@ const isValid = (s) => {
 // console.log(removeInvalidParentheses(')('));
 // console.log(removeInvalidParentheses('))('));
 // console.log(removeInvalidParentheses(')()('));
-console.log(removeInvalidParentheses('(((k()(('));
+// console.log(removeInvalidParentheses('(((k()(('));
+// console.log(removeInvalidParentheses(')(k(()'));
+// console.log(removeInvalidParentheses('()((((((()l('));
+console.log(removeInvalidParentheses('())((((((((((b))('));
