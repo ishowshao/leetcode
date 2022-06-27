@@ -1,28 +1,31 @@
+// 太TMD难了
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var maxCoins = function (nums) {
-    const arr = [];
-    let temp = [];
-    const helper = (nums) => {
-        if (nums.length === 0) {
-            arr.push([...temp]);
-            return;
+    nums = [1, ...nums, 1];
+    const solves = Array(nums.length).fill(null).map(() => Array(nums.length).fill(null));
+    // console.log(solves);
+
+    const solve = (i, j) => {
+        // 相邻的坐标中间没有数字，贡献是0
+        if (i === j - 1) {
+            return 0;
         }
-        for (let i = 0; i < nums.length; i++) {
-            let num = nums[i];
-            temp.push(num);
-            const n = [...nums];
-            n.splice(i, 1);
-            helper(n);
-            temp.pop();
+        if (solves[i][j] !== null) {
+            return solves[i][j];
         }
+        let max = 0;
+        for (let mid = i + 1; mid < j; mid++) {
+            max = Math.max(max, nums[i] * nums[mid] * nums[j] + solve(i, mid) + solve(mid, j));
+        }
+        solves[i][j] = max;
+        return max;
     };
-    helper(nums);
-    console.log(arr);
+    return solve(0, nums.length - 1);
 };
 
-// [3,5,8] --> [3,8] --> [8] --> []
-// 3*5*8  1*3*8 1*8*1
-console.log(maxCoins([1, 2, 3, 4, 5, 6]));
+console.log(maxCoins([3, 1, 5, 8]));
+console.log(maxCoins([1, 5]));
+// console.log(maxCoins([9, 76, 64, 21]));
