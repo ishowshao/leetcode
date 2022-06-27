@@ -10,6 +10,9 @@ var removeInvalidParentheses = function (s) {
         if (l > 0) {
             // do remove
             for (let i = sl; i < sArr.length; i++) {
+                if (l + r > sArr.length - i) {
+                    break;
+                }
                 if (sArr[i] === '(') {
                     sArr[i] = '';
                     l--;
