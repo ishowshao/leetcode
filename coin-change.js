@@ -8,21 +8,21 @@ var coinChange = function (coins, amount) {
     if (amount === 0) {
         return amount;
     }
-    coins.sort((a, b) => b - a);
+    coins.sort((a, b) => a - b);
 
     let result = [];
 
     const target = [];
 
-    const map = {};
+    const dp = [];
 
     const helper = (amount) => {
         if (amount === 0) {
             result.push(target.length);
             return;
         }
-        if (map[amount] !== undefined) {
-            result.push(target.length + map[amount]);
+        if (dp[amount] !== undefined) {
+            result.push(target.length + dp[amount]);
             return;
         }
         for (let i = 0; i < coins.length; i++) {
@@ -40,13 +40,13 @@ var coinChange = function (coins, amount) {
     for (let i = 1; i <= amount; i++) {
         helper(i);
         // console.log(result);
-        map[i] = Math.min(...result);
+        dp[i] = Math.min(...result);
         result = [];
         // break;
     }
 
-    // console.log(map);
-    return Number.isFinite(map[amount]) ? map[amount] : -1;
+    // console.log(dp);
+    return Number.isFinite(dp[amount]) ? dp[amount] : -1;
 
     // console.log(result);
 };
