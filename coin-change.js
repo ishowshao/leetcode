@@ -9,43 +9,32 @@ var coinChange = function (coins, amount) {
         return amount;
     }
 
-    coins.sort((a, b) => a - b);
-
-    let result = Number.POSITIVE_INFINITY;
-
-    let count = 0;
-
-    const dp = Array(amount + 1).fill(null);
+    const cache = Array(amount + 1).fill(null);
 
     const helper = (amount) => {
         if (amount === 0) {
-            result = Math.min(result, count);
-            return;
+            return 0;
         }
-        if (dp[amount] !== null) {
-            result = Math.min(result, count + dp[amount]);
-            return;
+        if (cache[amount] !== null) {
+            return cache[amount];
         }
+        let min = Number.POSITIVE_INFINITY;
         for (let i = 0; i < coins.length; i++) {
             let coin = coins[i];
             if (amount >= coin) {
-                count++;
-                helper(amount - coin);
-                count--;
+                min = Math.min(min, helper(amount - coin) + 1);
             }
         }
+        cache[amount] = min;
+        return min;
     };
 
-    for (let i = 1; i <= amount; i++) {
-        helper(i);
-        dp[i] = result;
-        result = Number.POSITIVE_INFINITY;
-    }
+    let res = helper(amount);
 
-    // console.log(dp);
-    return Number.isFinite(dp[amount]) ? dp[amount] : -1;
+    // console.log(cache);
+    return Number.isFinite(res) ? res : -1;
 };
 
 console.log(coinChange([1, 2, 5], 11));
-// console.log(coinChange([186, 419, 83, 408], 6249));
+console.log(coinChange([186, 419, 83, 408], 6249));
 console.log(coinChange([2], 3));
