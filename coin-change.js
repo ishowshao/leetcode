@@ -8,49 +8,44 @@ var coinChange = function (coins, amount) {
     if (amount === 0) {
         return amount;
     }
+
     coins.sort((a, b) => a - b);
 
-    let result = [];
+    let result = Number.POSITIVE_INFINITY;
 
-    const target = [];
+    let count = 0;
 
-    const dp = [];
+    const dp = Array(amount + 1).fill(null);
 
     const helper = (amount) => {
         if (amount === 0) {
-            result.push(target.length);
+            result = Math.min(result, count);
             return;
         }
-        if (dp[amount] !== undefined) {
-            result.push(target.length + dp[amount]);
+        if (dp[amount] !== null) {
+            result = Math.min(result, count + dp[amount]);
             return;
         }
         for (let i = 0; i < coins.length; i++) {
             let coin = coins[i];
             if (amount >= coin) {
-                target.push(coin);
+                count++;
                 helper(amount - coin);
-                target.pop();
+                count--;
             }
         }
     };
 
-    // helper(amount);
-
     for (let i = 1; i <= amount; i++) {
         helper(i);
-        // console.log(result);
-        dp[i] = Math.min(...result);
-        result = [];
-        // break;
+        dp[i] = result;
+        result = Number.POSITIVE_INFINITY;
     }
 
     // console.log(dp);
     return Number.isFinite(dp[amount]) ? dp[amount] : -1;
-
-    // console.log(result);
 };
 
-// console.log(coinChange([1, 2, 5], 11));
-console.log(coinChange([186, 419, 83, 408], 6249));
+console.log(coinChange([1, 2, 5], 11));
+// console.log(coinChange([186, 419, 83, 408], 6249));
 console.log(coinChange([2], 3));
