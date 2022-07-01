@@ -44,6 +44,21 @@ var calcEquation = function (equations, values, queries) {
         unionFind.union(hashMap[var1], hashMap[var2], values[i]);
     }
     // return result;
+    const result = [];
+    for (let i = 0; i < queries.length; i++) {
+        let var1 = queries[i][0];
+        let var2 = queries[i][1];
+
+        let id1 = hashMap[var1];
+        let id2 = hashMap[var2];
+
+        if (id1 == null || id2 == null) {
+            result[i] = -1;
+        } else {
+            result[i] = unionFind.isConnected(id1, id2);
+        }
+    }
+    return result;
 };
 
 class UnionFind {
@@ -70,7 +85,7 @@ class UnionFind {
 
     find(x) {
         if (x != this.parent[x]) {
-            let origin = parent[x];
+            let origin = this.parent[x];
             this.parent[x] = this.find(this.parent[x]);
             this.weight[x] *= this.weight[origin];
         }
@@ -91,11 +106,12 @@ class UnionFind {
 console.log(
     calcEquation(
         [
+            ['a', 'd'],
             ['a', 'b'],
             ['d', 'c'],
-            ['a', 'd'],
+            ['e', 'f']
         ],
-        [3.0, 4.0, 6.0],
+        [3.0, 4.0, 6.0, 2.0],
         [
             ['a', 'c'],
         ]
