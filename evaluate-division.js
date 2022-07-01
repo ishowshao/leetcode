@@ -5,64 +5,99 @@
  * @return {number[]}
  */
 var calcEquation = function (equations, values, queries) {
-    const path = [...equations];
-    const eq = new Set();
-    equations.forEach((el, index) => {
-        eq.add(el[0]);
-        eq.add(el[1]);
-        path.push([el[1], el[0]]);
-        values.push(1 / values[index]);
-    });
+    // const map = {
+    //     a: {
+    //         root: 'c',
+    //         weight: 12,
+    //     },
+    //     b: {
+    //         root: 'c',
+    //         weight: 6,
+    //     },
+    //     c: {
+    //         root: 'c',
+    //         weight: 1,
+    //     },
+    //     ab: {
+    //         root: 'ab',
+    //         weight: 1,
+    //     },
+    // };
 
-    // console.log(path, values);
-    // return;
+    const equationsSize = equations.length;
 
+    const unionFind = new UnionFind(equationsSize * 2);
+    const hashMap = {};
 
-    // for (let i = 0; i < equations.length; i++) {
-    //     const e = equations[i];
-    //     const value = values[i];
-    //     graph[e[0]] = { next: e[1], val: value, visited: 0 };
-    //     graph[e[1]] = { next: e[0], val: 1 / value, visited: 0 };
-    // }
-
-    // console.log(graph)
-
-    const result = [];
-
-    const dfs = (node, head, tail, product) => {
-        if (node === tail) {
-            return product;
+    let id = 0;
+    for (let i = 0; i < equationsSize; i++) {
+        const equation = equations[i];
+        const [var1, var2] = equation;
+        if (hashMap[var1] === undefined) {
+            hashMap[var1] = id;
+            id++;
         }
-        let result = -1;
-        for (let i = 0; i < path.length; i++) {
-            const p = path[i];
-            if (p[0] === node && p[1] !== head) {
-                result = dfs(p[1], head, tail, product * values[i]);
-            }
+        if (hashMap[var2] === undefined) {
+            hashMap[var2] = id;
+            id++;
         }
-        return result;
+        unionFind.union(hashMap[var1], hashMap[var2], values[i]);
+    }
+    // return result;
+};
+
+class UnionFind {
+    constructor(n) {
+        this.parent = Array(n);
+        this.weight = Array(n);
+        for (let i = 0; i < n; i++) {
+            this.parent[i] = i;
+            this.weight[i] = 1;
+        }
     }
 
-    const query = queries[2];
-    const p = dfs(query[0], query[0], query[1], 1);
-    console.log(p);
+    union(x, y, value) {
+        let rootX = this.find(x);
+        let rootY = this.find(y);
+        if (rootX == rootY) {
+            return;
+        }
 
-    return result;
-};
+        this.parent[rootX] = rootY;
+        // 关系式的推导请见「参考代码」下方的示意图
+        this.weight[rootX] = (this.weight[y] * value) / this.weight[x];
+    }
+
+    find(x) {
+        if (x != this.parent[x]) {
+            let origin = parent[x];
+            this.parent[x] = this.find(this.parent[x]);
+            this.weight[x] *= this.weight[origin];
+        }
+        return this.parent[x];
+    }
+
+    isConnected(x, y) {
+        let rootX = this.find(x);
+        let rootY = this.find(y);
+        if (rootX == rootY) {
+            return this.weight[x] / this.weight[y];
+        } else {
+            return -1;
+        }
+    }
+}
 
 console.log(
     calcEquation(
         [
             ['a', 'b'],
-            ['b', 'c'],
+            ['d', 'c'],
+            ['a', 'd'],
         ],
-        [2.0, 3.0],
+        [3.0, 4.0, 6.0],
         [
             ['a', 'c'],
-            ['b', 'a'],
-            ['a', 'e'],
-            ['a', 'a'],
-            ['x', 'x'],
         ]
     )
 );
