@@ -7,6 +7,7 @@ var reconstructQueue = function (people) {
     const queue = people.filter((el) => el[1] === 0).sort((a, b) => a[0] - b[0]);
     console.log(queue);
     for (let i = 1; i < people.length; i++) {
+        // 这个位置可以优化，不用每次filter，排个序
         const add = people.filter((el) => el[1] === i);
         // console.log(add);
         for (let j = 0; j < add.length; j++) {
