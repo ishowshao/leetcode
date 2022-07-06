@@ -16,7 +16,7 @@ var pathSum = function (root, targetSum) {
     let count = 0;
     const helper = (root, targets) => {
         if (targets.includes(root.val)) {
-            count++;
+            count += targets.filter(el => el === root.val).length;
             // console.log(root);
         }
         // if (!root.left && !root.right) {
