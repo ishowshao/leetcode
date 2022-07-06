@@ -16,4 +16,4 @@ var findTargetSumWays = function (nums, target) {
     return a.filter((e) => e === target).length;
 };
 
-console.log(findTargetSumWays([1, 1, 1, 1, 1]));
+console.log(findTargetSumWays([1, 1, 1, 1, 1], 3));
