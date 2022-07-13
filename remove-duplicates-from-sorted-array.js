@@ -3,19 +3,22 @@
  * @return {number}
  */
 var removeDuplicates = function (nums) {
-    let length = nums.length;
-    let n = nums[0];
-    let count = 0;
-    for (let i = 1; i < length; i++) {
-        if (n === nums[i]) {
-            nums[i] = null;
-            count++;
+    let a = 0;
+    let b = 0;
+    while (b < nums.length) {
+        if (nums[a] === nums[b]) {
+            b++;
         } else {
-            n = nums[i];
+            let i = b;
+            while (i > a) {
+                nums[i] = nums[b];
+                i--;
+            }
+            a++;
         }
     }
-    console.log(nums, count);
-    return length - count;
+    console.log(nums);
+    return a + 1;
 };
 
 console.log(removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]));
