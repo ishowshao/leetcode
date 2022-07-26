@@ -14,18 +14,12 @@ var deleteDuplicates = function (head) {
         return head;
     }
     const h = head;
-    let left = head;
-    let right = head.next;
-
-    while (right) {
-        while (right && left.val === right.val) {
-            right = right.next;
-        }
-        left.next = right;
-
-        left = left.next;
-        if (right) {
-            right = right.next;
+    let current = head;
+    while (current.next) {
+        if (current.val === current.next.val) {
+            current.next = current.next.next;
+        } else {
+            current = current.next;
         }
     }
 
