@@ -13,6 +13,11 @@
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function (root, p, q) {
+    if (p.val > q.val) {
+        let temp = p;
+        p = q;
+        q = temp;
+    }
     if (p.val <= root.val && q.val >= root.val) {
         return root;
     }
