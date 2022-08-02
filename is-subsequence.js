@@ -4,17 +4,12 @@
  * @return {boolean}
  */
 var isSubsequence = function (s, t) {
-    const a = [];
+    let p = -1;
     for (let i = 0; i < s.length; i++) {
-        a.push(t.indexOf(s[i], a[a.length - 1] + 1 || 0));
-    }
-    console.log(a);
-    // a.push(Number.POSITIVE_INFINITY);
-    for (let i = 0; i < a.length; i++) {
-        if (a[i] === -1) {
+        p = t.indexOf(s[i], p + 1);
+        if (p === -1) {
             return false;
         }
-        // if (a[i] >= a[i + 1])
     }
     return true;
 };
