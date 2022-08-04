@@ -12,17 +12,20 @@
  */
 var averageOfLevels = function (root) {
     const avgs = [];
+    const count = [];
     const helper = (root, level) => {
         if (!root) {
             return;
         }
         if (avgs[level] === undefined) {
             avgs[level] = 0;
+            count[level] = 0;
         }
         avgs[level] += root.val;
+        count[level]++;
         helper(root.left, level + 1);
         helper(root.right, level + 1);
     };
     helper(root, 0);
-    return avgs;
+    return avgs.map((v, i) => v / count[i]);
 };
