@@ -8,7 +8,6 @@ var buddyStrings = function (s, goal) {
         return false;
     }
     if (s === goal) {
-        console.log(new Set(s.split('')));
         return new Set(s.split('')).size < s.length;
     }
     const diff1 = [];
@@ -19,9 +18,11 @@ var buddyStrings = function (s, goal) {
             diff2.push(goal[i]);
         }
     }
-    console.log(diff);
-    const set = new Set(diff);
-    return set.size === 2;
+
+    if (diff1.length === 2) {
+        return diff1.sort().join('') === diff2.sort().join('');
+    }
+    return false;
 };
 
 console.log(buddyStrings('ab', 'ab'))
