@@ -12,11 +12,8 @@ var convert = function (s, numRows) {
     const width = m - 1;
     const mod = s.length % len;
     const n = Math.floor(s.length / len) * width + (mod > m ? mod - m : 1);
-    console.log(m, n);
-    const matrix = Array(m)
-        .fill(' ')
-        .map(() => Array(n).fill(' '));
-    // console.log(matrix);
+
+    const matrix = Array(m).fill(' ').map(() => Array(n).fill(' '));
     for (let i = 0; i < s.length; i++) {
         let p = i % len;
         let d = Math.floor(i / len);
@@ -24,7 +21,7 @@ var convert = function (s, numRows) {
         let y = p < m ? p : 2 * m - p - 2;
         matrix[y][x] = s[i];
     }
-    console.log(matrix.map((r) => r.join('')).join('\n'));
+    // console.log(matrix.map((r) => r.join('')).join('\n'));
     let ans = '';
     matrix.forEach((row) => {
         row.forEach((c) => {
