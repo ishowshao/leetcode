@@ -19,6 +19,7 @@ var copyRandomList = function (head) {
     pointer = sentry;
     while (head) {
         const node = map.has(head) ? map.get(head) : new Node(head.val);
+        map.set(head, node);
         const rNode = head.random !== null ? (map.has(head.random) ? map.get(head.random) : new Node(head.random.val)) : null;
 
         if (head.random) {
