@@ -4,9 +4,7 @@
  * @return {number[]}
  */
 var findOrder = function (numCourses, prerequisites) {
-    if (prerequisites.length === 0) {
-        return Array(numCourses).fill(0).map((v, i) => i);
-    }
+    // 构造边
     const bMap = {};
     prerequisites.forEach((pre) => {
         const [a, b] = pre;
@@ -17,26 +15,37 @@ var findOrder = function (numCourses, prerequisites) {
         }
     });
 
-    const bKeys = Object.keys(bMap);
-    for (let i = 0; i < bKeys.length; i++) {
-        const key = bKeys[i];
-        let count = 0;
-        const arr = [];
-        arr.push(key);
-        const courses = [];
-        while (arr.length > 0) {
-            const el = arr.shift();
-            count++;
-            courses.push(Number(el));
-            if (bMap[el] !== undefined) {
-                arr.push(...bMap[el]);
-            }
-            if (count >= numCourses) {
-                return courses;
+    let cycle = false;
+    const stack = [];
+    const visited = Array(numCourses).fill(0); // 0, 1, 2
+    const dfs = (n) => {
+        visited[n] = 1;
+        const edges = bMap[n];
+        if (edges) {
+            for (let i = 0; i < edges.length; i++) {
+                const v = edges[i];
+                if (visited[v] === 1) {
+                    cycle = true;
+                    return;
+                }
+                if (visited[v] === 2) {
+                    continue;
+                }
+                dfs(v);
             }
         }
+        visited[n] = 2;
+        stack.push(n);
+    };
+    for (let i = 0; i < numCourses && !cycle; i++) {
+        if (visited[i] === 0) {
+            dfs(i);
+        }
     }
-    return [];
+    if (cycle) {
+        return [];
+    }
+    return stack.reverse();
 };
 
 console.log(
