@@ -19,6 +19,14 @@ var solution = function (read4) {
      * @return {number} The number of actual characters read
      */
     return function (buf, n) {
-        
+        let r = 0;
+        let buf4 = [];
+        do {
+            rd = read4(buf4);
+            for (let i = 0; i < rd && r < n; i++, r++) {
+                buf[r] = buf4[i];
+            }
+        } while (rd > 0 && r < n)
+        return r;
     };
 };
