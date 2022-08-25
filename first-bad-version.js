@@ -20,6 +20,15 @@ var solution = function (isBadVersion) {
     return function (n) {
         const search = (i, j) => {
             const mid = Math.floor((i + j) / 2);
+            if (!isBadVersion(mid - 1) && isBadVersion(mid)) {
+                return mid;
+            }
+            if (isBadVersion(mid - 1)) {
+                return search(i, mid - 1);
+            } else {
+                return search(mid + 1, j);
+            }
         };
+        return search(1, n);
     };
 };
