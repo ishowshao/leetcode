@@ -12,6 +12,8 @@ times = times.map(t => {
     const date = new Date(t.str);
     t.timestamp = date.getTime();
     t.week = date.getDay();
+    t.month = date.getMonth();
+    t.year = date.getFullYear();
     return t;
 }).sort((a, b) => a - b);
 
