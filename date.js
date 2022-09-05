@@ -41,7 +41,7 @@ let gDiv = 0;
 // console.log(group);
 
 times.forEach(r => {
-    const div = r.year * 10 + r.month;
+    const div = String(r.year) + String(r.month);
     if (gDiv === div) {
         g.push(r);
     } else {
