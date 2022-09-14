@@ -10,6 +10,7 @@ var jump = function (nums) {
         for (let j = 0; j < i; j++) {
             if (nums[j] + j >= i) {
                 dp[i] = Math.min(dp[j] + 1, dp[i]);
+                break;
             }
         }
     }
