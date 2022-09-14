@@ -6,10 +6,11 @@ var jump = function (nums) {
     const dp = Array(nums.length).fill(nums.length);
     dp[0] = 0;
     dp[1] = 1;
+    let j = 0;
     for (let i = 2; i < dp.length; i++) {
-        for (let j = 0; j < i; j++) {
+        for (; j < i; j++) {
             if (nums[j] + j >= i) {
-                dp[i] = Math.min(dp[j] + 1, dp[i]);
+                dp[i] = dp[j] + 1;
                 break;
             }
         }
