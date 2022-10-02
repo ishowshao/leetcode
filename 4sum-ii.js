@@ -17,9 +17,7 @@
     for (let i = 0; i < nums1.length; i++) {
         for (let j = 0; j < nums2.length; j++) {
             let sum = nums1[i] + nums2[j];
-            if (map4.has(0 - sum)) {
-                count += map4.get(0 - sum);
-            }
+            count += map4.get(0 - sum) || 0;
         }
     }
     return count;
