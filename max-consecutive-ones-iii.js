@@ -10,13 +10,17 @@ var longestOnes = function (nums, k) {
     let one = nums[0];
     while (right < nums.length) {
         if (k > zero) {
+            // 扩展窗口
             nums[right] ? one++ : zero++;
             right++;
         } else {
+            // 分两种情况
             if (zero === k && nums[right]) {
+                // 这种情况还是可以扩展窗口
                 one++;
                 right++;
             } else {
+                // 平移窗口
                 nums[right] ? one++ : zero++;
                 nums[left] ? one-- : zero--;
                 right++;
