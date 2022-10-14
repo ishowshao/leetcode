@@ -10,11 +10,7 @@ var longestOnes = function (nums, k) {
     let one = nums[0];
     while (right < nums.length) {
         if (k > zero) {
-            if (nums[right]) {
-                one++;
-            } else {
-                zero++;
-            }
+            nums[right] ? one++ : zero++;
             right++;
         } else {
             if (zero === k && nums[right]) {
@@ -28,13 +24,10 @@ var longestOnes = function (nums, k) {
             }
         }
     }
-    let ans = right - left + (k - zero < 0 ? 0 : k - zero);
-    if (ans > nums.length) {
-        ans = nums.length;
-    }
-    return ans;
+    return (one > 0 || k > 0) ? one + zero : 0;
 };
 
 console.log(longestOnes([1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], 2)); // 6
 console.log(longestOnes([0, 0, 0, 1, 1], 2)); // 4
 console.log(longestOnes([0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], 3)); // 10
+console.log(longestOnes([0, 0, 0, 0], 0)); // 4
