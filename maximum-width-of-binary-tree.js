@@ -12,37 +12,32 @@
  */
  var widthOfBinaryTree = function (root) {
     const levels = [];
-    const prepare = (root, level) => {
+    const helper = (root, level, index) => {
         if (!root) {
             return;
         }
         if (!levels[level]) {
             levels[level] = [];
         }
-        prepare(root.left, level + 1);
-        prepare(root.right, level + 1);
+        levels[level].push(index);
+        helper(root.left, level + 1, index * 2n);
+        helper(root.right, level + 1, index * 2n + 1n);
     };
-    prepare(root, 0);
+    helper(root, 0, 0n);
     console.log(levels);
-    const helper = (root, level) => {
-        if (level >= levels.length) {
-            return;
-        }
-        levels[level].push(root ? root.val : null);
-        helper(root ? root.left : null, level + 1);
-        helper(root ? root.right : null, level + 1);
-    };
-    helper(root, 0);
-    console.log(levels);
+    let max = 0;
     for (let i = 0; i < levels.length; i++) {
         const l = levels[i];
-        while (l[0] === null) {
-            l.shift();
+        let w;
+        if (l.length > 1) {
+            w = Math.max(max, Number(l[l.length - 1] - l[0] + 1n));
+        } else {
+            w = 1;
         }
-        while (l[l.length - 1] === null) {
-            l.pop();
+        if (w > max) {
+            max = w;
         }
     }
-    console.log(levels);
-    return Math.max(...levels.map(l => l.length));
+    return Number(max);
+    // return Math.max(...levels.map(l => l.length > 1 ? l[l.length - 1] - l[0] + 1 : 1));
 };
