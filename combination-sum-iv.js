@@ -4,20 +4,25 @@
  * @return {number}
  */
 var combinationSum4 = function (nums, target) {
-    const dp = Array(nums.length + 1)
-        .fill(false)
-        .map(() => Array(target + 1).fill(false));
-
-    dp[0][0] = true;
-
-    for (let i = 1; i < dp.length; i++) {
-        for (let j = 1; j <= target; j++) {
-            dp[i][j] = 
-            (j % nums[i - 1] === 0 || dp[i - 1][j % nums[i - 1]]);
+    const ans = [];
+    nums.sort((a, b) => a - b);
+    const helper = (arr, target) => {
+        if (target < 0) {
+            return;
         }
-    }
-    console.log(dp);
-    return 0;
+        if (target === 0) {
+            ans.push([...arr]);
+            return;
+        }
+        for (let i = 0; i < nums.length; i++) {
+            const n = nums[i];
+            arr.push(n);
+            helper(arr, target - n);
+            arr.pop();
+        }
+    };
+    helper([], target);
+    return ans.length;
 };
 
 console.log(combinationSum4([1, 2, 3], 4));
