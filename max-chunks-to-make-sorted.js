@@ -15,8 +15,7 @@ var maxChunksToSorted = function (arr) {
         m = Math.max(m, arr[i]);
         max[i] = m;
     }
-    console.log(min);
-    console.log(max);
+
     let l = min[0];
     let h = max[0];
     let section = 1;
@@ -35,7 +34,6 @@ var maxChunksToSorted = function (arr) {
     return section;
 };
 
-console.log(maxChunksToSorted([3, 2, 1, 0]));
-console.log(maxChunksToSorted([2, 0, 1, 3]));
-console.log(maxChunksToSorted([1, 4, 0, 2, 3, 5]));
-
+// console.log(maxChunksToSorted([3, 2, 1, 0]));
+// console.log(maxChunksToSorted([2, 0, 1, 3]));
+// console.log(maxChunksToSorted([1, 4, 0, 2, 3, 5]));
