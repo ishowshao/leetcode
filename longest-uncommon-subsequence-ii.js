@@ -19,7 +19,6 @@ var findLUSlength = function (strs) {
             }
         }
         if (!flag) {
-            console.log(a);
             max = Math.max(max, a.length);
         }
     }
