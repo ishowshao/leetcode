@@ -22,5 +22,6 @@ var nthUglyNumber = function (n) {
     }
     const ans = Array.from(array).sort((a, b) => a - b);
     console.log(ans, ans.length);
+    console.log(ans.join(','));
 };
 console.log(nthUglyNumber(2));
