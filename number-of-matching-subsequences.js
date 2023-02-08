@@ -12,15 +12,16 @@ var numMatchingSubseq = function (s, words) {
  * @param {string} b 
  */
 const isSubseq = (a, b) => {
-    let j = 0;
-    for (let i = 0; i < a.length; i++) {
-        let ch = a[i];
-        if (ch === b[j]) {
-            j++;
-        }
-        if (j === b.length) {
-            return true;
+    let position = 0;
+    for (let i = 0; i < b.length; i++) {
+        let pos = a.indexOf(b[i], position);
+        if (pos === -1) {
+            return false;
+        } else {
+            position = pos + 1;
         }
     }
-    return j === b.length;
+    return true;
 };
+
+console.log(isSubseq('abced', 'bb'));
