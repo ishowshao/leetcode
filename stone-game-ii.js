@@ -3,38 +3,46 @@
  * @return {number}
  */
 var stoneGameII = function (piles) {
-    let m = 1;
-    let ans = Math.max(helperA(1, 0), helperA(2, 0));
-    const helperA = (take, offset, current, m) => {
-        if (offset > piles.length) {
+    let counter = 0;
+    const total = [...piles];
+    for (let i = total.length - 2; i > -1; i--) {
+        total[i] += total[i + 1];
+    }
+
+    const cache = Array(piles.length + 1).fill(null).map(() => Array(piles.length).fill(null));
+
+    const helperA = (m, offset) => {
+        if (offset >= piles.length) {
             return 0;
         }
-        if (take + offset >= piles.length) {
-            for (let i = offset; i < piles.length; i++) {
-                current += piles[i];
-            }
-            return current;
-        } else {
-            for (let i = 0; i < take; i++) {
-                current += piles[offset + i];
-            }
+        if (cache[m][offset] !== null) {
+            return cache[m][offset];
         }
-        let m2 = m * 2;
-        let arr = [];
-        for (let x = 1; x <= m2; x++) {
-            arr.push(helperB(x, take + offset, current, Math.max(m, x)));
-        }
-        const maxB = Math.max(...arr);
-        const takeB = arr.indexOf(maxB) + 1;
-        m = Math.max(m, takeB);
-        m2 = m * 2;
-        const results = [];
-        return Math.max(helperA(1, takeB + offset), helperA(2, takeB + offset));
-    };
-    const helperB = (take, offset, current, m) => {
+        counter++;
 
+        let m2 = m * 2;
+        let sums = []; // 每种可选项的最优解 [10, 9]
+        let sum = 0;
+        for (let x = 1; x <= m2; x++) {
+            // 这里应该算 sum(x) + total(offset) - b()
+            if (offset + x > piles.length) {
+                break;
+            }
+            sum += piles[offset + x - 1];
+            let res = sum + (offset + x >= piles.length ? 0 : total[offset + x]) - helperA(Math.max(m, x), offset + x);
+            sums.push(res);
+        }
+        let ans = Math.max(...sums);
+        cache[m][offset] = ans;
+        return ans;
     };
+
+    let ans = helperA(1, 0);
+    console.log(ans, counter);
+    return ans;
 };
 
+stoneGameII([2, 7, 9, 4, 4]);
+stoneGameII([1, 2, 3, 4, 5, 100]);
+
 // [2,7,9,4,4]
-// [2,9,max(2,9),]
